@@ -1,0 +1,217 @@
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+@custom-variant dark (&:where(.dark, .dark *));
+
+:root {
+  /* Premium warm-cool palette — Duy Anh's brand */
+  --background: #0f0f1a;
+  --foreground: #e8e6f0;
+  --surface: #1a1a2e;
+  --surface-elevated: #24243e;
+  --muted: #3a3a5c;
+  --muted-strong: #9d9dbd;
+  --border: #2a2a4a;
+  --accent: #7c5bf5;
+  --accent-hover: #9478ff;
+  --accent-subtle: rgba(124, 91, 245, 0.12);
+  --accent-2: #f59e0b;
+  --gradient-start: #7c5bf5;
+  --gradient-end: #c084fc;
+  --button-bg: #7c5bf5;
+  --button-bg-hover: #9478ff;
+  --button-fg: #ffffff;
+  --success: #22c55e;
+  --danger: #ef4444;
+  --glow: rgba(124, 91, 245, 0.25);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-surface: var(--surface);
+  --color-surface-elevated: var(--surface-elevated);
+  --color-muted: var(--muted);
+  --color-muted-strong: var(--muted-strong);
+  --color-border-soft: var(--border);
+  --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
+  --color-accent-subtle: var(--accent-subtle);
+  --font-sans: var(--font-inter);
+  --font-mono: var(--font-jetbrains-mono);
+}
+
+/* ───── Base ───── */
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-inter), "Inter", system-ui, -apple-system, sans-serif;
+}
+
+pre, code, kbd, samp {
+  font-family: var(--font-jetbrains-mono), Consolas, "Courier New", monospace;
+}
+
+pre {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 0.75rem;
+  padding: 0.75rem 1rem;
+}
+
+/* ───── Smooth transitions on interactive elements ───── */
+button {
+  transition: background-color 250ms ease, color 250ms ease,
+    border-color 250ms ease, transform 150ms ease, box-shadow 250ms ease;
+}
+
+button:active {
+  transform: scale(0.97);
+}
+
+button:focus-visible,
+a:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+a {
+  transition: color 200ms ease, opacity 200ms ease;
+}
+
+/* ───── Animated gradient text ───── */
+.gradient-text {
+  background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end), var(--accent-2));
+  background-size: 200% 200%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: shimmer 4s ease infinite;
+}
+
+@keyframes shimmer {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+/* ───── Glassmorphism card ───── */
+.glass {
+  background: rgba(26, 26, 46, 0.6);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(124, 91, 245, 0.15);
+}
+
+.glass-hover:hover {
+  background: rgba(36, 36, 62, 0.8);
+  border-color: rgba(124, 91, 245, 0.3);
+  box-shadow: 0 0 30px rgba(124, 91, 245, 0.1);
+}
+
+/* ───── Glow effects ───── */
+.glow-sm {
+  box-shadow: 0 0 15px var(--glow);
+}
+
+.glow-md {
+  box-shadow: 0 0 30px var(--glow), 0 0 60px rgba(124, 91, 245, 0.1);
+}
+
+/* ───── Floating animation ───── */
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+.animate-float {
+  animation: float 4s ease-in-out infinite;
+}
+
+/* ───── Fade in up animation ───── */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.6s ease-out forwards;
+}
+
+.animate-fade-in-up-delay-1 {
+  animation: fadeInUp 0.6s ease-out 0.1s forwards;
+  opacity: 0;
+}
+
+.animate-fade-in-up-delay-2 {
+  animation: fadeInUp 0.6s ease-out 0.2s forwards;
+  opacity: 0;
+}
+
+.animate-fade-in-up-delay-3 {
+  animation: fadeInUp 0.6s ease-out 0.3s forwards;
+  opacity: 0;
+}
+
+/* ───── Pulse dot ───── */
+@keyframes pulseDot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(1.2); }
+}
+
+.animate-pulse-dot {
+  animation: pulseDot 2s ease-in-out infinite;
+}
+
+/* ───── Gradient border effect ───── */
+.gradient-border {
+  position: relative;
+  border-radius: 1rem;
+}
+
+.gradient-border::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 300ms ease;
+}
+
+.gradient-border:hover::before {
+  opacity: 1;
+}
+
+/* ───── Custom scrollbar ───── */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--background);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--muted);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent);
+}
+
+/* ───── Selection ───── */
+::selection {
+  background: rgba(124, 91, 245, 0.3);
+  color: #fff;
+}
