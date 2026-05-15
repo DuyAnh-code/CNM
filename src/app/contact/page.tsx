@@ -13,10 +13,10 @@ export default function ContactPage() {
   return (
     <div className="mx-auto max-w-3xl px-4 py-12 animate-fade-in-up">
       <h1 className="mb-2 text-3xl font-bold">
-        <span className="gradient-text">Liên hệ</span>
+        <span className="gradient-text">Liên hệ PetPals</span>
       </h1>
       <p className="mb-8 text-[var(--muted-strong)]">
-        Bạn có câu hỏi hoặc muốn hợp tác? Hãy gửi tin nhắn cho tôi!
+        Bạn có câu hỏi về sản phẩm hoặc cần tư vấn? Hãy liên hệ với chúng tôi!
       </p>
 
       <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
@@ -26,30 +26,33 @@ export default function ContactPage() {
             <div className="mb-2 text-lg">📧</div>
             <h3 className="mb-1 text-sm font-semibold text-[var(--foreground)]">Email</h3>
             <a
-              href="mailto:2212338@sv.dlu.edu.vn"
+              href="mailto:petpals@shop.vn"
               className="text-sm text-[var(--accent)] transition-colors hover:text-[var(--accent-hover)]"
             >
-              2212338@sv.dlu.edu.vn
+              petpals@shop.vn
             </a>
           </div>
           <div className="rounded-xl glass p-4 transition-all hover:glow-sm">
-            <div className="mb-2 text-lg">🐙</div>
-            <h3 className="mb-1 text-sm font-semibold text-[var(--foreground)]">GitHub</h3>
+            <div className="mb-2 text-lg">📞</div>
+            <h3 className="mb-1 text-sm font-semibold text-[var(--foreground)]">Hotline</h3>
             <a
-              href="https://github.com/duyanh-le"
-              target="_blank"
-              rel="noopener noreferrer"
+              href="tel:0123456789"
               className="text-sm text-[var(--accent)] transition-colors hover:text-[var(--accent-hover)]"
             >
-              github.com/duyanh-le
+              0123 456 789
             </a>
           </div>
           <div className="rounded-xl glass p-4 transition-all hover:glow-sm">
             <div className="mb-2 text-lg">📍</div>
-            <h3 className="mb-1 text-sm font-semibold text-[var(--foreground)]">Địa chỉ</h3>
+            <h3 className="mb-1 text-sm font-semibold text-[var(--foreground)]">Cửa hàng</h3>
             <p className="text-sm text-[var(--muted-strong)]">
-              Đại học Đà Lạt, 01 Phù Đổng Thiên Vương, Đà Lạt
+              01 Phù Đổng Thiên Vương, Đà Lạt
             </p>
+          </div>
+          <div className="rounded-xl glass p-4 transition-all hover:glow-sm">
+            <div className="mb-2 text-lg">🕐</div>
+            <h3 className="mb-1 text-sm font-semibold text-[var(--foreground)]">Giờ mở cửa</h3>
+            <p className="text-sm text-[var(--muted-strong)]">8:00 - 21:00 hàng ngày</p>
           </div>
         </div>
 
@@ -60,7 +63,7 @@ export default function ContactPage() {
               <div className="mb-3 text-4xl">✅</div>
               <h3 className="mb-2 text-lg font-semibold text-green-400">Gửi thành công!</h3>
               <p className="text-green-300/80">
-                Cảm ơn bạn đã liên hệ. Tôi sẽ phản hồi sớm nhất có thể.
+                Cảm ơn bạn đã liên hệ. Chúng tôi sẽ phản hồi sớm nhất có thể.
               </p>
             </div>
           ) : (
@@ -103,7 +106,7 @@ export default function ContactPage() {
                   id="subject"
                   name="subject"
                   type="text"
-                  placeholder="Chủ đề bạn muốn trao đổi"
+                  placeholder="Tư vấn sản phẩm cho chó"
                   required
                   className="w-full rounded-lg border border-[var(--border)] bg-[var(--surface)] px-4 py-2.5 text-[var(--foreground)] placeholder:text-[var(--muted)] focus:border-[var(--accent)] focus:ring-2 focus:ring-[var(--accent)]/30 focus:outline-none transition-all"
                 />
@@ -128,9 +131,9 @@ export default function ContactPage() {
               <button
                 type="submit"
                 disabled={isPending}
-                className="w-full rounded-lg bg-[var(--accent)] px-6 py-3 font-medium text-white transition-all hover:bg-[var(--accent-hover)] hover:shadow-lg hover:shadow-purple-500/20 disabled:cursor-not-allowed disabled:opacity-50"
+                className="w-full rounded-lg bg-[var(--accent)] px-6 py-3 font-medium text-white transition-all hover:bg-[var(--accent-hover)] hover:shadow-lg hover:shadow-orange-500/20 disabled:cursor-not-allowed disabled:opacity-50"
               >
-                {isPending ? "Đang gửi..." : "Gửi tin nhắn"}
+                {isPending ? "Đang gửi..." : "📨 Gửi tin nhắn"}
               </button>
             </form>
           )}

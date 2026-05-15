@@ -14,12 +14,16 @@ export async function updateProfile(formData: FormData): Promise<void> {
 
   const displayName = String(formData.get("display_name") ?? "").trim();
   const avatarUrl = String(formData.get("avatar_url") ?? "").trim();
+  const phone = String(formData.get("phone") ?? "").trim();
+  const address = String(formData.get("address") ?? "").trim();
 
   const { error } = await supabase
     .from("profiles")
     .update({
       display_name: displayName || null,
       avatar_url: avatarUrl || null,
+      phone: phone || null,
+      address: address || null,
     })
     .eq("id", user.id);
 

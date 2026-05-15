@@ -3,26 +3,30 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 :root {
-  /* Premium warm-cool palette — Duy Anh's brand */
-  --background: #0f0f1a;
-  --foreground: #e8e6f0;
-  --surface: #1a1a2e;
-  --surface-elevated: #24243e;
-  --muted: #3a3a5c;
-  --muted-strong: #9d9dbd;
-  --border: #2a2a4a;
-  --accent: #7c5bf5;
-  --accent-hover: #9478ff;
-  --accent-subtle: rgba(124, 91, 245, 0.12);
-  --accent-2: #f59e0b;
-  --gradient-start: #7c5bf5;
-  --gradient-end: #c084fc;
-  --button-bg: #7c5bf5;
-  --button-bg-hover: #9478ff;
+  /* 🐾 PetPals — Warm & Friendly Palette */
+  --background: #0d1117;
+  --foreground: #e6edf3;
+  --surface: #161b22;
+  --surface-elevated: #1c2333;
+  --muted: #30363d;
+  --muted-strong: #8b949e;
+  --border: #21262d;
+  --accent: #f97316;
+  --accent-hover: #fb923c;
+  --accent-subtle: rgba(249, 115, 22, 0.12);
+  --accent-2: #22c55e;
+  --gradient-start: #f97316;
+  --gradient-end: #facc15;
+  --button-bg: #f97316;
+  --button-bg-hover: #fb923c;
   --button-fg: #ffffff;
   --success: #22c55e;
   --danger: #ef4444;
-  --glow: rgba(124, 91, 245, 0.25);
+  --warning: #f59e0b;
+  --glow: rgba(249, 115, 22, 0.25);
+  --pet-primary: #f97316;
+  --pet-secondary: #22c55e;
+  --pet-warm: #fbbf24;
 }
 
 @theme inline {
@@ -58,7 +62,7 @@ pre {
   padding: 0.75rem 1rem;
 }
 
-/* ───── Smooth transitions on interactive elements ───── */
+/* ───── Smooth transitions ───── */
 button {
   transition: background-color 250ms ease, color 250ms ease,
     border-color 250ms ease, transform 150ms ease, box-shadow 250ms ease;
@@ -78,9 +82,9 @@ a {
   transition: color 200ms ease, opacity 200ms ease;
 }
 
-/* ───── Animated gradient text ───── */
+/* ───── Animated gradient text (orange → yellow) ───── */
 .gradient-text {
-  background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end), var(--accent-2));
+  background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end), var(--pet-secondary));
   background-size: 200% 200%;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -95,16 +99,16 @@ a {
 
 /* ───── Glassmorphism card ───── */
 .glass {
-  background: rgba(26, 26, 46, 0.6);
+  background: rgba(22, 27, 34, 0.7);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(124, 91, 245, 0.15);
+  border: 1px solid rgba(249, 115, 22, 0.1);
 }
 
 .glass-hover:hover {
-  background: rgba(36, 36, 62, 0.8);
-  border-color: rgba(124, 91, 245, 0.3);
-  box-shadow: 0 0 30px rgba(124, 91, 245, 0.1);
+  background: rgba(28, 35, 51, 0.8);
+  border-color: rgba(249, 115, 22, 0.25);
+  box-shadow: 0 0 30px rgba(249, 115, 22, 0.08);
 }
 
 /* ───── Glow effects ───── */
@@ -113,7 +117,7 @@ a {
 }
 
 .glow-md {
-  box-shadow: 0 0 30px var(--glow), 0 0 60px rgba(124, 91, 245, 0.1);
+  box-shadow: 0 0 30px var(--glow), 0 0 60px rgba(249, 115, 22, 0.1);
 }
 
 /* ───── Floating animation ───── */
@@ -167,6 +171,18 @@ a {
   animation: pulseDot 2s ease-in-out infinite;
 }
 
+/* ───── Paw print bounce ───── */
+@keyframes pawBounce {
+  0%, 100% { transform: scale(1) rotate(0deg); }
+  25% { transform: scale(1.1) rotate(-5deg); }
+  50% { transform: scale(1) rotate(0deg); }
+  75% { transform: scale(1.1) rotate(5deg); }
+}
+
+.animate-paw {
+  animation: pawBounce 2s ease-in-out infinite;
+}
+
 /* ───── Gradient border effect ───── */
 .gradient-border {
   position: relative;
@@ -192,6 +208,67 @@ a {
   opacity: 1;
 }
 
+/* ───── Product card hover ───── */
+.product-card {
+  transition: transform 300ms ease, box-shadow 300ms ease, border-color 300ms ease;
+}
+
+.product-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px rgba(249, 115, 22, 0.15);
+  border-color: rgba(249, 115, 22, 0.3);
+}
+
+.product-card img {
+  transition: transform 500ms ease;
+}
+
+.product-card:hover img {
+  transform: scale(1.05);
+}
+
+/* ───── Sale badge ───── */
+.sale-badge {
+  background: linear-gradient(135deg, #ef4444, #f97316);
+  color: white;
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.5rem;
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  z-index: 10;
+}
+
+/* ───── Category card ───── */
+.category-card {
+  transition: transform 300ms ease, box-shadow 300ms ease;
+}
+
+.category-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(249, 115, 22, 0.12);
+}
+
+/* ───── Cart badge ───── */
+.cart-badge {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  background: var(--danger);
+  color: white;
+  font-size: 0.65rem;
+  font-weight: 700;
+  min-width: 18px;
+  height: 18px;
+  border-radius: 9px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+}
+
 /* ───── Custom scrollbar ───── */
 ::-webkit-scrollbar {
   width: 6px;
@@ -212,6 +289,55 @@ a {
 
 /* ───── Selection ───── */
 ::selection {
-  background: rgba(124, 91, 245, 0.3);
+  background: rgba(249, 115, 22, 0.3);
   color: #fff;
+}
+
+/* ───── Star rating ───── */
+.star-filled {
+  color: #fbbf24;
+}
+
+.star-empty {
+  color: var(--muted);
+}
+
+/* ───── Price styling ───── */
+.price-original {
+  text-decoration: line-through;
+  color: var(--muted-strong);
+  font-size: 0.875rem;
+}
+
+.price-sale {
+  color: var(--danger);
+  font-weight: 700;
+}
+
+/* ───── Status badges ───── */
+.badge-pending { background: rgba(245, 158, 11, 0.15); color: #f59e0b; }
+.badge-confirmed { background: rgba(59, 130, 246, 0.15); color: #3b82f6; }
+.badge-shipping { background: rgba(168, 85, 247, 0.15); color: #a855f7; }
+.badge-delivered { background: rgba(34, 197, 94, 0.15); color: #22c55e; }
+.badge-cancelled { background: rgba(239, 68, 68, 0.15); color: #ef4444; }
+
+/* ───── Quantity controls ───── */
+.qty-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--foreground);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 200ms ease;
+}
+
+.qty-btn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
 }

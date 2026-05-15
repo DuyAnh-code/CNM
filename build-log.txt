@@ -1,0 +1,21 @@
+▲ Next.js 16.2.3 (Turbopack)
+- Environments: .env.local
+
+  Creating an optimized production build ...
+✓ Compiled successfully in 1983ms
+  Running TypeScript ...
+Failed to type check.
+
+.next/dev/types/validator.ts:25:44
+Type error: Type 'Route' does not satisfy the constraint '"/"'.
+  Type 'LayoutRoutes' is not assignable to type '"/"'.
+    Type '"/blog"' is not assignable to type '"/"'.
+
+  [90m23 |[0m
+  [90m24 |[0m [36mtype[0m [33mLayoutConfig[0m<[33mRoute[0m [36mextends[0m [33mLayoutRoutes[0m = [33mLayoutRoutes[0m> = {
+[31m[1m>[0m [90m25 |[0m   [36mdefault[0m: [33mReact[0m.[33mComponentType[0m<[33mLayoutProps[0m<[33mRoute[0m>> | ((props: [33mLayoutProps[0m<[33mRoute[0m>) => [33mReact[0m.[33m..[0m
+  [90m   |[0m                                            [31m[1m^[0m
+  [90m26 |[0m   generateStaticParams?: (props: { params: [33mParamMap[0m[[33mRoute[0m] }) => [33mPromise[0m<any[]> | any[]
+  [90m27 |[0m   generateMetadata?: (
+  [90m28 |[0m     props: { params: [33mPromise[0m<[33mParamMap[0m[[33mRoute[0m]> } & any,
+Next.js build worker exited with code: 1 and signal: null

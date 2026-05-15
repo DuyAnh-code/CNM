@@ -2,13 +2,9 @@ import { createClient } from "@/lib/supabase/server";
 import { NavbarClient, type NavLink } from "@/components/navbar-client";
 
 const LINKS: NavLink[] = [
-  { href: "/", label: "Blog" },
-  { href: "/portfolio", label: "Trang chủ (portfolio)" },
+  { href: "/", label: "Trang chủ" },
+  { href: "/products", label: "Sản phẩm" },
   { href: "/about", label: "Giới thiệu" },
-  { href: "/blog", label: "Blog (tĩnh)" },
-  { href: "/projects", label: "Dự án" },
-  { href: "/guestbook", label: "Lưu bút" },
-  { href: "/skills", label: "Kỹ năng" },
   { href: "/contact", label: "Liên hệ" },
 ];
 
@@ -18,5 +14,15 @@ export default async function Navbar() {
     data: { user },
   } = await supabase.auth.getUser();
 
-  return <NavbarClient links={LINKS} isAuthenticated={!!user} />;
+  let isAdmin = false;
+  if (user) {
+    const { data: profile } = await supabase
+      .from("profiles")
+      .select("role")
+      .eq("id", user.id)
+      .single();
+    isAdmin = profile?.role === "admin";
+  }
+
+  return <NavbarClient links={LINKS} isAuthenticated={!!user} isAdmin={isAdmin} />;
 }

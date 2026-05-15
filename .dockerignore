@@ -1,0 +1,17 @@
+node_modules
+.next
+.git
+.gitignore
+README.md
+AGENTS.md
+CLAUDE.md
+*.md
+.env*
+!.env.example
+lab file
+bai-tap-copilot.js
+supabase
+nginx
+init-ssl.sh
+build-log.txt
+docker-compose.yml

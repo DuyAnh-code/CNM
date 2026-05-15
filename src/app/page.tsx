@@ -1,139 +1,172 @@
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
+import { ProductCard } from "@/components/product-card";
+import { CategoryCard } from "@/components/category-card";
 
-const PAGE_SIZE = 5;
-
-export default async function HomePage({
-  searchParams,
-}: {
-  searchParams: Promise<{ page?: string }>;
-}) {
-  const sp = await searchParams;
-  const page = Math.max(1, Number(sp.page) || 1);
-  const from = (page - 1) * PAGE_SIZE;
-  const to = from + PAGE_SIZE - 1;
-
+export default async function HomePage() {
   const supabase = await createClient();
 
-  const { data: posts, error, count } = await supabase
-    .from("posts")
-    .select(
-      `
-      *,
-      profiles (
-        display_name,
-        avatar_url
-      )
-    `,
-      { count: "exact" },
-    )
-    .eq("status", "published")
-    .order("published_at", { ascending: false })
-    .range(from, to);
+  // Fetch categories
+  const { data: categories } = await supabase
+    .from("categories")
+    .select("*")
+    .order("sort_order");
 
-  if (error) {
-    console.error("Error fetching posts:", error);
-  }
+  // Fetch featured products
+  const { data: featuredProducts } = await supabase
+    .from("products")
+    .select("*")
+    .eq("status", "active")
+    .eq("is_featured", true)
+    .order("sold", { ascending: false })
+    .limit(8);
 
-  const total = count ?? 0;
-  const totalPages = Math.max(1, Math.ceil(total / PAGE_SIZE));
+  // Fetch newest products
+  const { data: newProducts } = await supabase
+    .from("products")
+    .select("*")
+    .eq("status", "active")
+    .order("created_at", { ascending: false })
+    .limit(4);
 
   return (
-    <div className="mx-auto max-w-4xl px-4 py-8 animate-fade-in-up">
-      <div className="mb-8 flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
-        <div>
-          <h1 className="text-3xl font-bold">
-            <span className="gradient-text">Bài viết mới nhất</span>
-          </h1>
-          <p className="mt-2 text-sm text-[var(--muted-strong)]">
-            Blog cá nhân — Next.js & Supabase.{" "}
-            <Link href="/portfolio" className="text-[var(--accent)] hover:text-[var(--accent-hover)] transition-colors">
-              Xem trang portfolio →
-            </Link>
-          </p>
+    <div className="animate-fade-in-up">
+      {/* ─── Hero Section ─── */}
+      <section className="relative mb-12 overflow-hidden rounded-2xl glass p-10 md:p-16 text-center">
+        {/* Decorative elements */}
+        <div className="absolute -right-16 -top-16 h-48 w-48 rounded-full border border-orange-500/20 opacity-30" />
+        <div className="absolute -left-8 -bottom-8 h-32 w-32 rounded-full border border-amber-400/10 opacity-20" />
+
+        <div className="animate-float mx-auto mb-6 flex h-24 w-24 items-center justify-center rounded-2xl bg-gradient-to-br from-orange-500 to-amber-400 text-5xl shadow-lg glow-md">
+          🐾
         </div>
-      </div>
 
-      {posts && posts.length > 0 ? (
-        <div className="space-y-5">
-          {posts.map((post: Record<string, unknown>) => (
-            <article
-              key={post.id as string}
-              className="group rounded-xl glass p-6 transition-all hover:glow-sm"
-            >
-              <Link href={`/posts/${post.slug as string}`}>
-                <h2 className="text-xl font-semibold text-[var(--foreground)] transition-colors group-hover:text-[var(--accent)]">
-                  {post.title as string}
-                </h2>
-              </Link>
+        <h1 className="mb-4 text-4xl font-extrabold leading-tight md:text-6xl">
+          Chào mừng đến{" "}
+          <span className="gradient-text">PetPals Shop</span>
+        </h1>
 
-              {(post.excerpt as string | null) ? (
-                <p className="mt-2 text-[var(--muted-strong)]">{post.excerpt as string}</p>
-              ) : null}
+        <p className="mx-auto mb-3 max-w-2xl text-lg text-[var(--muted-strong)]">
+          Cửa hàng phụ kiện thú cưng <span className="text-[var(--accent)] font-medium">uy tín hàng đầu</span>.
+          Đa dạng sản phẩm cho chó, mèo và các loại thú cưng.
+        </p>
+        <p className="mx-auto mb-8 max-w-2xl text-[var(--muted-strong)]">
+          Vòng cổ · Thức ăn · Đồ chơi · Quần áo · Chăm sóc · Nhà & nệm
+        </p>
 
-              <div className="mt-4 flex flex-wrap items-center gap-4 text-sm text-[var(--muted-strong)]">
-                <span className="flex items-center gap-1.5">
-                  <span className="inline-block h-1.5 w-1.5 rounded-full bg-[var(--accent)] animate-pulse-dot" />
-                  {(post.profiles as { display_name?: string } | null)?.display_name ?? "Ẩn danh"}
-                </span>
-                <span aria-hidden>·</span>
-                <span>
-                  {post.published_at
-                    ? new Date(post.published_at as string).toLocaleDateString("vi-VN")
-                    : "Chưa xuất bản"}
-                </span>
-              </div>
+        <div className="flex flex-wrap items-center justify-center gap-3">
+          <Link
+            href="/products"
+            className="inline-flex items-center gap-2 rounded-xl bg-[var(--accent)] px-7 py-3.5 font-medium text-white transition-all hover:bg-[var(--accent-hover)] hover:shadow-lg hover:shadow-orange-500/20"
+          >
+            <span>🛍️</span> Mua sắm ngay
+          </Link>
+          <Link
+            href="/about"
+            className="inline-flex items-center gap-2 rounded-xl border border-[var(--border)] px-7 py-3.5 font-medium text-[var(--foreground)] transition-all hover:border-[var(--accent)] hover:text-[var(--accent)]"
+          >
+            <span>🐕</span> Về chúng tôi
+          </Link>
+        </div>
 
-              <Link
-                href={`/posts/${post.slug as string}`}
-                className="mt-4 inline-block text-sm font-medium text-[var(--accent)] transition-colors hover:text-[var(--accent-hover)]"
-              >
-                Đọc tiếp →
-              </Link>
-            </article>
+        {/* Stats */}
+        <div className="mt-10 grid grid-cols-2 gap-4 md:grid-cols-4">
+          {[
+            { label: "Sản phẩm", value: "100+", icon: "📦" },
+            { label: "Đã bán", value: "500+", icon: "✅" },
+            { label: "Khách hàng", value: "200+", icon: "❤️" },
+            { label: "Đánh giá 5⭐", value: "95%", icon: "⭐" },
+          ].map((stat) => (
+            <div key={stat.label} className="rounded-xl bg-[var(--surface)] border border-[var(--border)] p-4 transition-all hover:border-[var(--accent)]/30">
+              <div className="mb-1 text-xl">{stat.icon}</div>
+              <div className="text-xl font-bold text-[var(--foreground)]">{stat.value}</div>
+              <div className="text-xs text-[var(--muted-strong)]">{stat.label}</div>
+            </div>
           ))}
         </div>
-      ) : (
-        <div className="rounded-xl glass py-16 text-center">
-          <div className="mb-4 text-4xl">📝</div>
-          <p className="text-[var(--muted-strong)]">Chưa có bài viết nào.</p>
-          <p className="mt-2 text-sm text-[var(--muted)]">
-            Đăng nhập và tạo bài từ{" "}
-            <Link href="/dashboard/new" className="text-[var(--accent)] hover:underline">
-              Dashboard
+      </section>
+
+      {/* ─── Categories ─── */}
+      {categories && categories.length > 0 && (
+        <section className="mb-12 animate-fade-in-up-delay-1">
+          <div className="mb-6 flex items-center justify-between">
+            <h2 className="text-2xl font-bold">
+              <span className="gradient-text">Danh mục sản phẩm</span>
+            </h2>
+            <Link
+              href="/products"
+              className="text-sm font-medium text-[var(--accent)] transition-colors hover:text-[var(--accent-hover)]"
+            >
+              Xem tất cả →
             </Link>
-            .
-          </p>
-        </div>
+          </div>
+          <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-6">
+            {categories.map((cat) => (
+              <CategoryCard key={cat.id} category={cat} />
+            ))}
+          </div>
+        </section>
       )}
 
-      {totalPages > 1 ? (
-        <nav className="mt-10 flex items-center justify-center gap-4 text-sm">
-          {page > 1 ? (
+      {/* ─── Featured Products ─── */}
+      {featuredProducts && featuredProducts.length > 0 && (
+        <section className="mb-12 animate-fade-in-up-delay-2">
+          <div className="mb-6 flex items-center justify-between">
+            <h2 className="text-2xl font-bold">
+              🔥 <span className="gradient-text">Sản phẩm nổi bật</span>
+            </h2>
             <Link
-              href={page === 2 ? "/" : `/?page=${page - 1}`}
-              className="rounded-lg border border-[var(--border)] px-4 py-2.5 transition-all hover:border-[var(--accent)] hover:text-[var(--accent)]"
+              href="/products"
+              className="text-sm font-medium text-[var(--accent)] transition-colors hover:text-[var(--accent-hover)]"
             >
-              ← Trước
+              Xem thêm →
             </Link>
-          ) : (
-            <span className="opacity-30">← Trước</span>
-          )}
-          <span className="text-[var(--muted-strong)]">
-            Trang {page} / {totalPages}
-          </span>
-          {page < totalPages ? (
+          </div>
+          <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">
+            {featuredProducts.map((product) => (
+              <ProductCard key={product.id} product={product} />
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* ─── New Products ─── */}
+      {newProducts && newProducts.length > 0 && (
+        <section className="mb-12 animate-fade-in-up-delay-3">
+          <div className="mb-6 flex items-center justify-between">
+            <h2 className="text-2xl font-bold">
+              🆕 <span className="gradient-text">Sản phẩm mới</span>
+            </h2>
             <Link
-              href={`/?page=${page + 1}`}
-              className="rounded-lg border border-[var(--border)] px-4 py-2.5 transition-all hover:border-[var(--accent)] hover:text-[var(--accent)]"
+              href="/products"
+              className="text-sm font-medium text-[var(--accent)] transition-colors hover:text-[var(--accent-hover)]"
             >
-              Sau →
+              Xem thêm →
             </Link>
-          ) : (
-            <span className="opacity-30">Sau →</span>
-          )}
-        </nav>
-      ) : null}
+          </div>
+          <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
+            {newProducts.map((product) => (
+              <ProductCard key={product.id} product={product} />
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* ─── CTA ─── */}
+      <section className="rounded-2xl glass p-8 text-center">
+        <h2 className="mb-3 text-2xl font-bold">
+          🐶 Bạn cần tư vấn?
+        </h2>
+        <p className="mb-5 text-[var(--muted-strong)]">
+          Liên hệ với chúng tôi để được tư vấn sản phẩm phù hợp nhất cho thú cưng của bạn.
+        </p>
+        <Link
+          href="/contact"
+          className="inline-flex items-center gap-2 rounded-xl bg-[var(--accent)] px-7 py-3.5 font-medium text-white transition-all hover:bg-[var(--accent-hover)] hover:shadow-lg hover:shadow-orange-500/20"
+        >
+          💬 Liên hệ ngay
+        </Link>
+      </section>
     </div>
   );
 }

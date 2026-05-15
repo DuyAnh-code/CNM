@@ -1,39 +1,59 @@
+import Link from "next/link";
+
 export default function Footer() {
   return (
     <footer className="mt-auto border-t border-[var(--border)]">
       <div className="mx-auto max-w-6xl px-4 py-8">
-        <div className="flex flex-col items-center gap-4 sm:flex-row sm:justify-between">
-          <div className="flex items-center gap-2">
-            <span className="flex h-7 w-7 items-center justify-center rounded-md bg-[var(--accent)] text-xs font-bold text-white">
-              DA
-            </span>
-            <span className="text-sm font-medium text-[var(--foreground)]">
-              Lê Bình Duy Anh
-            </span>
+        <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
+          {/* Brand */}
+          <div>
+            <div className="mb-3 flex items-center gap-2">
+              <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-orange-500 to-amber-400 text-lg">
+                🐾
+              </span>
+              <span className="text-lg font-bold text-[var(--foreground)]">
+                PetPals Shop
+              </span>
+            </div>
+            <p className="text-sm text-[var(--muted-strong)] leading-relaxed">
+              Cửa hàng phụ kiện thú cưng uy tín. Chuyên cung cấp vòng cổ, thức ăn, đồ chơi, quần áo và đồ chăm sóc cho chó mèo.
+            </p>
           </div>
 
-          <div className="flex items-center gap-4 text-sm text-[var(--muted-strong)]">
-            <a
-              href="https://github.com/duyanh-le"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="transition-colors hover:text-[var(--accent)]"
-            >
-              GitHub
-            </a>
-            <span className="text-[var(--muted)]">·</span>
-            <a
-              href="mailto:2212338@sv.dlu.edu.vn"
-              className="transition-colors hover:text-[var(--accent)]"
-            >
-              Email
-            </a>
-            <span className="text-[var(--muted)]">·</span>
-            <span>MSSV 2212338</span>
+          {/* Links */}
+          <div>
+            <h3 className="mb-3 text-sm font-semibold text-[var(--foreground)]">Liên kết</h3>
+            <div className="space-y-2 text-sm text-[var(--muted-strong)]">
+              <Link href="/products" className="block transition-colors hover:text-[var(--accent)]">
+                Sản phẩm
+              </Link>
+              <Link href="/about" className="block transition-colors hover:text-[var(--accent)]">
+                Giới thiệu
+              </Link>
+              <Link href="/contact" className="block transition-colors hover:text-[var(--accent)]">
+                Liên hệ
+              </Link>
+              <Link href="/orders" className="block transition-colors hover:text-[var(--accent)]">
+                Theo dõi đơn hàng
+              </Link>
+            </div>
           </div>
 
+          {/* Contact */}
+          <div>
+            <h3 className="mb-3 text-sm font-semibold text-[var(--foreground)]">Liên hệ</h3>
+            <div className="space-y-2 text-sm text-[var(--muted-strong)]">
+              <p>📧 petpals@shop.vn</p>
+              <p>📞 0123 456 789</p>
+              <p>📍 01 Phù Đổng Thiên Vương, Đà Lạt</p>
+              <p>🕐 8:00 - 21:00 hàng ngày</p>
+            </div>
+          </div>
+        </div>
+
+        <div className="mt-8 border-t border-[var(--border)] pt-6 text-center">
           <p className="text-xs text-[var(--muted)]">
-            © 2026 · CTK46A · ĐH Đà Lạt
+            © 2026 PetPals Shop · MSSV 2212338 · CTK46A · ĐH Đà Lạt
           </p>
         </div>
       </div>

@@ -37,6 +37,9 @@ yarn-error.log*
 # vercel
 .vercel
 
+# deploy (SSL certs generated on VPS)
+nginx/certbot/
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts

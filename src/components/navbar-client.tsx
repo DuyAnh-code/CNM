@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import { logout } from "@/app/actions/auth";
+import { CartIcon } from "@/components/cart-icon";
 
 export interface NavLink {
   href: string;
@@ -12,9 +13,10 @@ export interface NavLink {
 interface NavbarClientProps {
   links: NavLink[];
   isAuthenticated: boolean;
+  isAdmin?: boolean;
 }
 
-export function NavbarClient({ links, isAuthenticated }: NavbarClientProps) {
+export function NavbarClient({ links, isAuthenticated, isAdmin }: NavbarClientProps) {
   const [open, setOpen] = useState(false);
 
   return (
@@ -22,11 +24,11 @@ export function NavbarClient({ links, isAuthenticated }: NavbarClientProps) {
       <div className="mx-auto max-w-6xl px-4 py-3">
         <div className="flex items-center justify-between">
           <Link href="/" className="group flex items-center gap-2">
-            <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-[var(--accent)] text-sm font-bold text-white transition-transform group-hover:scale-110">
-              DA
+            <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-gradient-to-br from-orange-500 to-amber-400 text-lg transition-transform group-hover:scale-110">
+              🐾
             </span>
             <span className="text-lg font-bold text-[var(--foreground)] hidden sm:inline">
-              Duy Anh
+              PetPals
             </span>
           </Link>
 
@@ -52,11 +54,19 @@ export function NavbarClient({ links, isAuthenticated }: NavbarClientProps) {
             ))}
             {isAuthenticated ? (
               <>
+                {isAdmin && (
+                  <Link
+                    href="/dashboard"
+                    className="rounded-lg px-3 py-2 text-sm text-[var(--muted-strong)] transition-colors hover:bg-[var(--accent-subtle)] hover:text-[var(--accent)]"
+                  >
+                    🛠️ Quản lý
+                  </Link>
+                )}
                 <Link
-                  href="/dashboard"
+                  href="/orders"
                   className="rounded-lg px-3 py-2 text-sm text-[var(--muted-strong)] transition-colors hover:bg-[var(--accent-subtle)] hover:text-[var(--accent)]"
                 >
-                  Dashboard
+                  Đơn hàng
                 </Link>
                 <Link
                   href="/profile"
@@ -64,6 +74,7 @@ export function NavbarClient({ links, isAuthenticated }: NavbarClientProps) {
                 >
                   Hồ sơ
                 </Link>
+                <CartIcon />
                 <form action={logout}>
                   <button
                     type="submit"
@@ -75,6 +86,7 @@ export function NavbarClient({ links, isAuthenticated }: NavbarClientProps) {
               </>
             ) : (
               <>
+                <CartIcon />
                 <Link
                   href="/login"
                   className="rounded-lg px-3 py-2 text-sm text-[var(--muted-strong)] transition-colors hover:bg-[var(--accent-subtle)] hover:text-[var(--accent)]"
@@ -107,12 +119,28 @@ export function NavbarClient({ links, isAuthenticated }: NavbarClientProps) {
             ))}
             {isAuthenticated ? (
               <>
+                {isAdmin && (
+                  <Link
+                    href="/dashboard"
+                    onClick={() => setOpen(false)}
+                    className="block rounded-lg px-3 py-2.5 text-sm text-[var(--muted-strong)] hover:bg-[var(--accent-subtle)]"
+                  >
+                    🛠️ Quản lý
+                  </Link>
+                )}
                 <Link
-                  href="/dashboard"
+                  href="/orders"
                   onClick={() => setOpen(false)}
                   className="block rounded-lg px-3 py-2.5 text-sm text-[var(--muted-strong)] hover:bg-[var(--accent-subtle)]"
                 >
-                  Dashboard
+                  Đơn hàng
+                </Link>
+                <Link
+                  href="/cart"
+                  onClick={() => setOpen(false)}
+                  className="block rounded-lg px-3 py-2.5 text-sm text-[var(--muted-strong)] hover:bg-[var(--accent-subtle)]"
+                >
+                  🛒 Giỏ hàng
                 </Link>
                 <Link
                   href="/profile"
@@ -132,6 +160,13 @@ export function NavbarClient({ links, isAuthenticated }: NavbarClientProps) {
               </>
             ) : (
               <>
+                <Link
+                  href="/cart"
+                  onClick={() => setOpen(false)}
+                  className="block rounded-lg px-3 py-2.5 text-sm text-[var(--muted-strong)] hover:bg-[var(--accent-subtle)]"
+                >
+                  🛒 Giỏ hàng
+                </Link>
                 <Link
                   href="/login"
                   onClick={() => setOpen(false)}
